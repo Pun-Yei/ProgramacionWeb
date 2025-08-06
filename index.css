@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+}
+
+.intro {
+  max-width: 400px;
+}
+
+.intro h1 {
+  font-size: 48px;
+}
+
+.intro p {
+  font-size: 24px;
+}
+
+.login-card {
+  width: 360px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-form label {
+  font-size: 14px;
+}
+
+.login-form input {
+  font-size: 16px;
+  border: none;
+}
+
+.login-form button[type="submit"] {
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.login-form .forgot-password {
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.login-form hr {
+  border: none;
+}
+
+.create-account {
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
