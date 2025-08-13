@@ -2,7 +2,7 @@ name: Vite Build & Deploy to CloudFront
 
 on:
   push:
-    branches: [ tarea-03 ]
+    branches: [tarea-03]
 
 env:
   AWS_REGION: us-east-2
@@ -27,7 +27,7 @@ jobs:
       - name: Build with Vite
         run: npm run build
 
-      -  name: Upload dist as artifact
+      - name: Upload dist as artifact
         uses: actions/upload-artifact@v4
         with:
           name: dist-folder
