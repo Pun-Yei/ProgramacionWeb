@@ -1,5 +1,13 @@
 name: Vite Build & Deploy to CloudFront
 
+on:
+  push:
+    branches: [ tarea-03 ]
+
+env:
+  AWS_REGION: us-east-2
+  CLOUDFRONT_DISTRIBUTION_ID: E14JUL6U79BLI9
+
 jobs:
   build-upload-invalidate:
     runs-on: ubuntu-latest
@@ -18,3 +26,17 @@ jobs:
 
       - name: Build with Vite
         run: npm run build
+
+      - name: Upload dist as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-folder
+          path: dist/
+
+      - name: Sync dist folder to S3 bucket
+        run: |
+          aws s3 sync dist/ s3://programacionweb-tarea-03-sebastiansiquina/ --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id E14JUL6U79BLI9 --paths "/*"
