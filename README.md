@@ -30,4 +30,4 @@ A continuación se muestra la configuración de los secretos en GitHub Actions, 
 
 El contenido desplegado está disponible en la siguiente URL pública de CloudFront:
 
-[https://d3n4hvu9jdx53.cloudfront.net/index.html](https://d3n4hvu9jdx53.cloudfront.net)
+[https://d3n4hvu9jdx53.cloudfront.net](https://d3n4hvu9jdx53.cloudfront.net/index.html)
