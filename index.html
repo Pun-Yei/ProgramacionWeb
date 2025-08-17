@@ -5,20 +5,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PokeCartas:3</title>
-    <link rel="stylesheet" href="src/style.css">
   </head>
 
   <body>    
     <header>
-      <h1>PokeApi</h1>
+      <img src="./logo.png" alt="Descripción de la imagen" width="190" height="80">
     </header>
 
     <main>
+      <div id="buscador">
       <input type="text" id="txtbox_buscarpokemon" placeholder="Nombre..." value="">
       <button id="boton_buscarpokemon" type="button" onclick="">Buscar</button>
+      </div>
 
+      <div id="cartas">
+        <div id="root"></div>
+        <script type="module" src="/src/main.jsx"></script>
+      </div>
 
     </main>
+
 
     <footer>
       <p>Estudiante: Sebastian Josué Siquiná Tzún</p>
