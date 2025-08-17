@@ -8,7 +8,6 @@ function App() {
   return (
     <>
      <div>
-      <h1>Mi App de Pokemones</h1>
       <PokemonList />
     </div>
     </>
