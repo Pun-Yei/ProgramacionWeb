@@ -1,41 +1,59 @@
 name: Deploy Vite App to AWS
-
 on:
   push:
     branches:
       - assessment-1
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Setup Doppler CLI
-        uses: dopplerhq/cli-action@v3
-        env:
-          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: 18
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Build Vite project
-        run: npm run build
-
-      - name: Deploy to AWS S3 & Invalidate CloudFront
+      - name: Build project (Vite)
         run: |
-          doppler run --project tarea-03 --config prd -- \
-            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && \
-            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && \
-            aws configure set default.region us-east-2 && \
-            aws s3 sync ./dist s3://programacionweb-assessment-01 --delete && \
-            aws cloudfront create-invalidation --distribution-id E2SKW0HRJVMSXJ --paths "/*"
+          npm run build
+          echo "Build contents:"
+          ls -R dist/
+
+      - name: Configure AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Upload to S3 Bucket
         env:
-          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+          S3_BUCKET: programacionweb-assessment-01
+        run: |
+          # Comando modificado (sin --acl)
+          aws s3 sync dist/ s3://programacionweb-assessment-01 \
+            --delete \
+            --cache-control "max-age=31536000,public" \
+            --no-progress
+
+          echo "Upload verification:"
+          aws s3 ls s3://programacionweb-assessment-01 --recursive --human-readable --summarize
+
+      - name: Invalidate CloudFront Cache
+        env:
+          CLOUDFRONT_DISTRIBUTION_ID: E2SKW0HRJVMSXJ
+        run: |
+          echo "Invalidating CloudFront distribution: E2SKW0HRJVMSXJ"
+          aws cloudfront create-invalidation \
+            --distribution-id E2SKW0HRJVMSXJ \
+            --paths "/*" \
+            --output json
