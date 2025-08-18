@@ -13,35 +13,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Doppler
-        uses: dopplerhq/cli-action@v3
-        with:
-          token: ${{ secrets.DOPPLER_TOKEN }}
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build Vite project
-        run: npm run build
-
-      - name: Configure AWS
+      - name: Build and Deploy with Doppler
         run: |
-          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-          aws configure set default.region us-east-2
-
-      - name: Upload to S3
-        run: |
-          aws s3 sync ./dist s3://programacionweb-assessment-01 --delete
-
-      - name: Invalidate CloudFront
-        run: |
-          DISTRIBUTION_ID="E2SKW0HRJVMSXJ"
-          aws cloudfront create-invalidation \
-            --distribution-id $DISTRIBUTION_ID \
-            --paths "/*"
+          doppler run -- \
+          bash -c "
+            npm install &&
+            npm run build &&
+            aws s3 sync ./dist s3://programacionweb-assessment-01 --delete &&
+            aws cloudfront create-invalidation --distribution-id E2SKW0HRJVMSXJ --paths '/*'
+          "
+        env:
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
