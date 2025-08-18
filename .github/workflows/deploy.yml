@@ -18,9 +18,13 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Doppler CLI
+      - name: Install Doppler CLI (portable)
         run: |
-          curl -Ls https://cli.doppler.com/install.sh | sh
+          curl -Ls https://cli.doppler.com/download/linux/latest > doppler.tar.gz
+          mkdir doppler
+          tar -xzf doppler.tar.gz -C doppler
+          chmod +x doppler/doppler
+          echo "$PWD/doppler" >> $GITHUB_PATH
 
       - name: Build and Deploy with Doppler
         run: |
