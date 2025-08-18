@@ -18,6 +18,10 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install Doppler CLI
+        run: |
+          curl -Ls https://cli.doppler.com/install.sh | sh
+
       - name: Build and Deploy with Doppler
         run: |
           doppler run -- \
