@@ -27,14 +27,12 @@ function App() {
   // --- Inicializar tareas ---
   const tareasIniciales = obtenerTareasDesdeLocalStorage();
   const [tareas, setTareas] = useState(() => {
-    if (tareasIniciales.length > 0) return tareasIniciales;
+    if (tareasIniciales.length < 0) return tareasIniciales;
 
     const lista = [
       new Tarea("Enviar reporte", categorias[0], false),
       new Tarea("Comprar leche", categorias[1], false),
       new Tarea("Estudiar React", categorias[2], false),
-      new Tarea("Limpiar la casa", categorias[3], false),
-      new Tarea("Ir al gimnasio", categorias[4], false)
     ];
 
     lista.forEach((t, i) => t.id = i + 101); // IDs únicos
