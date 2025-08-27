@@ -1,35 +1,38 @@
-!>html:5
-    head>title[React Hooks y Formularios]
-    body>h1[Uso de Hooks en React]
-        p[En este proyecto usamos principalmente dos hooks de React: useState y useEffect.]
+# Uso de Hooks en React
 
-        h2[useState]
-        p[useState permite crear y manejar el estado de un componente funcional. Se usa para valores que cambian con la interacción del usuario.]
-        pre>code[class="language-js"][
+En este proyecto usamos principalmente dos hooks de React: `useState` y `useEffect`.
+
+## useState
+
+`useState` permite crear y manejar el estado de un componente funcional. Se usa para valores que cambian con la interacción del usuario.
+
+```js
 const [tareas, setTareas] = useState([...listaTareas]);
-setTareas(nuevasTareas) // actualiza el estado y provoca un re-render
-        ]
+setTareas(nuevasTareas); // actualiza el estado y provoca un re-render
+````
 
-        h2[useEffect]
-        p[useEffect permite ejecutar código cuando el componente se monta, se actualiza o se desmonta.]
-        pre>code[class="language-js"][
+## useEffect
+
+`useEffect` permite ejecutar código cuando el componente se monta, se actualiza o se desmonta.
+
+```js
 useEffect(() => {
     setTareas([...listaTareas]);
 }, [listaTareas]); // se ejecuta cuando cambia listaTareas
-        ]
+```
 
-        h2[Resumen del flujo en GridTareas]
-        ol>
-            li[El estado 'tareas' se inicializa con la lista recibida por props.]
-            li[useEffect sincroniza 'tareas' si cambia la lista original.]
-            li[Funciones completarTarea y eliminarTarea actualizan el estado llamando a setTareas.]
-            li[El render muestra las tareas con botones que disparan esas funciones.]
+## Resumen del flujo en GridTareas
 
-        h2[Flujo en Formularios (Categoría y Tarea)]
-        ul>
-            li[useState maneja visibilidad del formulario (showForm) y campos de entrada.]
-            li[Al enviar el formulario, se crea el objeto correspondiente y se llama a onCrear... para actualizar la lista en el componente padre.]
+1. El estado `tareas` se inicializa con la lista recibida por `props`.
+2. `useEffect` sincroniza `tareas` si cambia la lista original.
+3. Funciones `completarTarea` y `eliminarTarea` actualizan el estado llamando a `setTareas`.
+4. El render muestra las tareas con botones que disparan esas funciones.
 
-        h2[Ver la aplicación en línea]
-        p>
-            a[href="https://d59womjx74fk6.cloudfront.net/index.html"] [Mi CDN - Aplicación React]
+## Flujo en Formularios (Categoría y Tarea)
+
+* `useState` maneja visibilidad del formulario (`showForm`) y campos de entrada.
+* Al enviar el formulario, se crea el objeto correspondiente y se llama a `onCrear...` para actualizar la lista en el componente padre.
+
+## Ver la aplicación en línea
+
+[Mi CDN - Aplicación React](https://d59womjx74fk6.cloudfront.net/index.html)
