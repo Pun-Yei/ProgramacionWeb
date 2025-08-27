@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import Categoria from "./tag";
 
-export default function FormularioCategoria({ onCrearCategoria })
-{
+export default function FormularioCategoria({ onCrearCategoria }) {
     const [showForm, setShowForm] = useState(false);
     const [nombre, setNombre] = useState("");
 
     const handleOpenForm = () => setShowForm(true);
     const handleCloseForm = () => setShowForm(false);
 
-    const handleSubmit = (e) =>
-    {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         const categoria = new Categoria(nombre);

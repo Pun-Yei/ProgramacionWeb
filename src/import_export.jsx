@@ -24,3 +24,24 @@ export function obtenerTareasDesdeLocalStorage()
         return tarea;
     });
 }
+
+export function guardarCategoriasEnLocalStorage(categorias) 
+{
+    localStorage.setItem("categorias", JSON.stringify(categorias));
+}
+
+export function obtenerCategoriasDesdeLocalStorage() 
+{
+    const categoriasJSON = localStorage.getItem("categorias");
+    if (!categoriasJSON) return [];
+
+    const categoriasPlanas = JSON.parse(categoriasJSON);
+
+    return categoriasPlanas.map(c => 
+    {
+        const categoria = new Categoria(c.nombre);
+        categoria.id = c.id;
+        return categoria;
+    });
+}
+

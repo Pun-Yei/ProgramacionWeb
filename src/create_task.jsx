@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Categoria from "./tag";
 import Tarea from "./task";
 
-export default function FormularioTarea({ categorias, onCrearTarea })
-{
+export default function FormularioTarea({ categorias, onCrearTarea }) {
     const [showForm, setShowForm] = useState(false);
     const [nombre, setNombre] = useState("");
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(
@@ -13,8 +12,7 @@ export default function FormularioTarea({ categorias, onCrearTarea })
     const handleOpenForm = () => setShowForm(true);
     const handleCloseForm = () => setShowForm(false);
 
-    const handleSubmit = (e) =>
-    {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         const categoriaObj = categorias.find(
