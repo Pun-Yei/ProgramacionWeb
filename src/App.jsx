@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GridTareas from "./create_grid";
 import Categoria from "./tag";
 import Tarea from "./task";
@@ -7,11 +7,42 @@ import FormularioTarea from "./create_task";
 import { obtenerTareasDesdeLocalStorage, obtenerCategoriasDesdeLocalStorage } from "./import_export";
 
 function App() {
-  // Estado para categorias y tareas
-  const [categorias, setCategorias] = useState(obtenerCategoriasDesdeLocalStorage());
-  const [tareas, setTareas] = useState(obtenerTareasDesdeLocalStorage());
+  // --- Inicializar categorias ---
+  const categoriasIniciales = obtenerCategoriasDesdeLocalStorage();
+  const [categorias, setCategorias] = useState(() => {
+    if (categoriasIniciales.length > 0) return categoriasIniciales;
 
-  // Funcion para crear nueva categoria sin duplicados
+    // Crear 5 categorías iniciales si no hay en localStorage
+    const c1 = new Categoria("Trabajo"); c1.id = 1;
+    const c2 = new Categoria("Personal"); c2.id = 2;
+    const c3 = new Categoria("Estudio"); c3.id = 3;
+    const c4 = new Categoria("Hogar"); c4.id = 4;
+    const c5 = new Categoria("Salud"); c5.id = 5;
+
+    const lista = [c1, c2, c3, c4, c5];
+    localStorage.setItem("categorias", JSON.stringify(lista));
+    return lista;
+  });
+
+  // --- Inicializar tareas ---
+  const tareasIniciales = obtenerTareasDesdeLocalStorage();
+  const [tareas, setTareas] = useState(() => {
+    if (tareasIniciales.length > 0) return tareasIniciales;
+
+    const lista = [
+      new Tarea("Enviar reporte", categorias[0], false),
+      new Tarea("Comprar leche", categorias[1], false),
+      new Tarea("Estudiar React", categorias[2], false),
+      new Tarea("Limpiar la casa", categorias[3], false),
+      new Tarea("Ir al gimnasio", categorias[4], false)
+    ];
+
+    lista.forEach((t, i) => t.id = i + 101); // IDs únicos
+    localStorage.setItem("tareas", JSON.stringify(lista));
+    return lista;
+  });
+
+  // --- Funciones para crear categorías y tareas ---
   const handleCrearCategoria = (nuevaCategoria) => {
     const existe = categorias.some(
       (cat) => cat.nombre.toLowerCase() === nuevaCategoria.nombre.toLowerCase()
@@ -26,7 +57,6 @@ function App() {
     }
   };
 
-  // Funcion para crear nueva tarea sin duplicados
   const handleCrearTarea = (nuevaTarea) => {
     const existe = tareas.some(
       (t) =>
