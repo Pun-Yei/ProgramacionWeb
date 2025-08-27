@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { completarTareaPorId, eliminarTareaPorId } from "./complete_delete_task";
 
 function GridTareas({ listaTareas }) {
     const [tareas, setTareas] = useState([...listaTareas]);
+
+    // Sincroniza tareas si listaTareas cambia
+    useEffect(() => {
+        setTareas([...listaTareas]);
+    }, [listaTareas]);
 
     // Completa una tarea por su id
     const completarTarea = (id) => {
@@ -22,7 +27,7 @@ function GridTareas({ listaTareas }) {
                 {tareas.map((tarea) => (
                     <div key={tarea.id}>
                         <h4>{tarea.nombre}</h4>
-                        <p>{tarea.categoria?.nombre || "Sin categoría"}</p>
+                        <p>Categoria: {tarea.categoria?.nombre || "Sin categoría"}</p>
 
                         <button
                             onClick={() => completarTarea(tarea.id)}

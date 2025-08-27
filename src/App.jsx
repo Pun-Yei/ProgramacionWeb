@@ -1,83 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import GridTareas from "./create_grid";
-import Tarea from "./task";
 import Categoria from "./tag";
+import Tarea from "./task";
 import FormularioCategoria from "./create_tag";
 import FormularioTarea from "./create_task";
-import { guardarTareasEnLocalStorage, obtenerTareasDesdeLocalStorage } from "./import_export";
-
-// Funciones para manejar categorías en localStorage
-function guardarCategoriasEnLocalStorage(categorias) {
-  localStorage.setItem("categorias", JSON.stringify(categorias));
-}
-
-function obtenerCategoriasDesdeLocalStorage() {
-  const categoriasJSON = localStorage.getItem("categorias");
-  if (!categoriasJSON) return [];
-  const categoriasPlanas = JSON.parse(categoriasJSON);
-  return categoriasPlanas.map(c => new Categoria(c.nombre, c.id));
-}
-
-// Función para inicializar localStorage con datos por defecto si está vacío
-function inicializarDatos() {
-  // Inicializar categorías
-  if (!localStorage.getItem("categorias")) {
-    const trabajo = new Categoria("Trabajo");
-    const estudio = new Categoria("Estudio");
-    guardarCategoriasEnLocalStorage([trabajo, estudio]);
-  }
-
-  // Inicializar tareas
-  if (!localStorage.getItem("tareas")) {
-    const categoriasGuardadas = obtenerCategoriasDesdeLocalStorage();
-    const trabajo = categoriasGuardadas.find(c => c.nombre === "Trabajo");
-    const estudio = categoriasGuardadas.find(c => c.nombre === "Estudio");
-
-    const listaInicialTareas = [
-      new Tarea("Hacer informe", trabajo),
-      new Tarea("Estudiar React", estudio),
-      new Tarea("Enviar correo", trabajo),
-    ];
-    guardarTareasEnLocalStorage(listaInicialTareas);
-  }
-}
+import { obtenerTareasDesdeLocalStorage, obtenerCategoriasDesdeLocalStorage } from "./import_export";
 
 function App() {
-  const [categorias, setCategorias] = useState([]);
-  const [tareas, setTareas] = useState([]);
+  // Estado para categorias y tareas
+  const [categorias, setCategorias] = useState(obtenerCategoriasDesdeLocalStorage());
+  const [tareas, setTareas] = useState(obtenerTareasDesdeLocalStorage());
 
-  // Inicializar datos y cargar desde localStorage al montar
-  useEffect(() => {
-    inicializarDatos();
+  // Funcion para crear nueva categoria sin duplicados
+  const handleCrearCategoria = (nuevaCategoria) => {
+    const existe = categorias.some(
+      (cat) => cat.nombre.toLowerCase() === nuevaCategoria.nombre.toLowerCase()
+    );
 
-    const categoriasGuardadas = obtenerCategoriasDesdeLocalStorage();
-    setCategorias(categoriasGuardadas);
-
-    const tareasGuardadas = obtenerTareasDesdeLocalStorage();
-    setTareas(tareasGuardadas);
-  }, []);
-
-  // Crear nueva categoría
-  const handleCrearCategoria = (categoria) => {
-    const nuevasCategorias = [...categorias, categoria];
-    setCategorias(nuevasCategorias);
-    guardarCategoriasEnLocalStorage(nuevasCategorias);
+    if (!existe) {
+      const nuevasCategorias = [...categorias, nuevaCategoria];
+      setCategorias(nuevasCategorias);
+      localStorage.setItem("categorias", JSON.stringify(nuevasCategorias));
+    } else {
+      alert("La categoría ya existe");
+    }
   };
 
-  // Crear nueva tarea
-  const handleCrearTarea = (tarea) => {
-    const nuevasTareas = [...tareas, tarea];
-    setTareas(nuevasTareas);
-    guardarTareasEnLocalStorage(nuevasTareas);
+  // Funcion para crear nueva tarea sin duplicados
+  const handleCrearTarea = (nuevaTarea) => {
+    const existe = tareas.some(
+      (t) =>
+        t.nombre.toLowerCase() === nuevaTarea.nombre.toLowerCase() &&
+        t.categoria.id === nuevaTarea.categoria.id
+    );
+
+    if (!existe) {
+      const nuevasTareas = [...tareas, nuevaTarea];
+      setTareas(nuevasTareas);
+      localStorage.setItem("tareas", JSON.stringify(nuevasTareas));
+    } else {
+      alert("La tarea ya existe en esa categoría");
+    }
   };
 
   return (
     <div>
       <h1>To Do</h1>
 
+      {/* Formulario para crear categorias */}
       <FormularioCategoria onCrearCategoria={handleCrearCategoria} />
+
+      {/* Formulario para crear tareas */}
       <FormularioTarea categorias={categorias} onCrearTarea={handleCrearTarea} />
 
+      {/* Grid de tareas */}
       <GridTareas listaTareas={tareas} />
     </div>
   );

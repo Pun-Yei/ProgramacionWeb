@@ -42,7 +42,7 @@ button {
 }
 
 button:hover:not(:disabled) {
-    background-color: #F2C4D6; /* Nosotros Miramos */
+    background-color: #F2C4D6; 
     transform: scale(1.05);
 }
 
