@@ -18,3 +18,10 @@ class Libro(models.Model):
     def __str__(self):
         return self.titulo
 
+class Capitulo(models.Model):
+    titulo = models.CharField(max_length=100)
+    libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.titulo
+
