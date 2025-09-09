@@ -25,3 +25,10 @@ class Capitulo(models.Model):
     def __str__(self):
         return self.titulo
 
+class Comentario(models.Model):
+    contenido = models.TextField()
+    capitulo = models.ForeignKey(Capitulo, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.contenido[:30]
+
