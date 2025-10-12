@@ -1,3 +1,6 @@
+import os
+import redis
+
 """
 Django settings for mysecrets project.
 
@@ -37,9 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
+    'mysecrets_api',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',   # configuracion para permitir solicitudes fuera del servidor
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -100,18 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-# Caché
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",  # Redis corriendo localmente
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
 
 LANGUAGE_CODE = 'en-us'
 
@@ -131,3 +128,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+# Permitimos acceso a la api fuera del servidor
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Configuramos redis
+REDIS = redis.Redis(
+    host=os.environ.get("REDIS_HOST", "localhost"),
+    port=int(os.environ.get("REDIS_PORT", 6379)),
+    db=int(os.environ.get("REDIS_DB", 0)),
+    password=os.environ.get("REDIS_PASSWORD") or None,
+    decode_responses=True
+)
+
