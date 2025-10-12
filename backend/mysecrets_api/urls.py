@@ -3,5 +3,5 @@ from .views import HideView, RevealView
 
 urlpatterns = [
     path('hide/', HideView.as_view(), name='hide'),
-    path('reveal/', RevealView.as_view(), name='reveal'),
+    path('reveal/<str:key>/', RevealView.as_view(), name='reveal'),
 ]
