@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./styles.css";
 
 export default function Reveal() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [key, setKey] = useState("");
   const [secret, setSecret] = useState(null);
   const [error, setError] = useState(null);
@@ -9,7 +10,7 @@ export default function Reveal() {
   const fetchSecret = async () => {
     setError(null);
     setSecret(null);
-    const res = await fetch(`http://127.0.0.1:8000/api/reveal/${key}/`);
+    const res = await fetch(`${API_URL}/api/reveal/${key}/`);
     const data = await res.json();
     if (res.ok) setSecret(data.secret);
     else setError(data.error || "No disponible");

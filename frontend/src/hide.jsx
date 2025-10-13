@@ -2,13 +2,14 @@ import { useState } from "react";
 import "./styles.css";
 
 export default function Hide() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [secret, setSecret] = useState("");
   const [key, setKey] = useState(null);
   const [error, setError] = useState(null);
 
   const submit = async () => {
     setError(null);
-    const res = await fetch("http://127.0.0.1:8000/api/hide/", {
+    const res = await fetch(`${API_URL}/api/hide/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ secret })
