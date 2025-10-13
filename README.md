@@ -49,6 +49,7 @@ Este proyecto tiene como objetivo desarrollar una aplicación web similar a **[s
 2. El frontend consulta la API (`/api/reveal/<key>/`).
 3. Si la key existe, el mensaje se muestra y la **key se elimina inmediatamente**.
 4. Si el usuario intenta volver a acceder con la misma key, se mostrará un **mensaje de error** indicando que ya no existe.
+![Vista principal del proyecto](./frontend/public/front2.png)
 
 
 ## Tecnologías Utilizadas
