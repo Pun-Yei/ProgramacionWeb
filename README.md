@@ -70,6 +70,7 @@ Este proyecto tiene como objetivo desarrollar una aplicación web similar a **[s
 * El proyecto **no requiere configuraciones adicionales** fuera del `docker compose up`.
 * Todos los servicios se levantan automáticamente en sus respectivos puertos.
 * La base de datos Redis se limpia al reiniciar los contenedores (datos volátiles).
+* No debe de haber ninguna instancia de Redis al iniciar el proyecto ya que se utiliza el puerto 6379 exclusivamente, lo mismo para el resto de tecnologias.
 
 
 ## Endpoints Principales (Backend Django)
