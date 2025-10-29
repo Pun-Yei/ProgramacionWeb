@@ -20,3 +20,4 @@ db.sqlite3
 
 # Archivos de Redis (si usas persistencia local)
 dump.rdb
+node_modules
