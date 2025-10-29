@@ -1,6 +1,7 @@
 ## Análisis de calidad con SonarQube
 
-Capturas del dashboard:
+### Frontend
+![SonarQube Screenshot Frontend](./docs/sonarqube-frontend.jpeg)
 
-![SonarQube Screenshot frontend](docs/sonarqube-frontend.jpeg)
-![SonarQube Screenshot backend](docs/sonarqube-backend.jpeg)
+### Backend
+![SonarQube Screenshot Backend](./docs/sonarqube-backend.jpeg)
